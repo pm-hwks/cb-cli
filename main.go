@@ -1509,7 +1509,7 @@ func main() {
 		},
 		{
 			Name:  "audit",
-			Usage: "audits related operations",
+			Usage: "audit related operations",
 			Subcommands: []cli.Command{
 				{
 					Name:   "list",
@@ -1645,6 +1645,24 @@ func main() {
 					Flags:  cb.NewFlagBuilder().AddOutputFlag().AddAuthenticationFlags().Build(),
 					Before: ConfigRead,
 					Action: cb.ListMpacks,
+					BashComplete: func(c *cli.Context) {
+						for _, f := range cb.NewFlagBuilder().AddOutputFlag().AddAuthenticationFlags().Build() {
+							printFlagCompletion(f)
+						}
+					},
+				},
+			},
+		},
+		{
+			Name:  "user",
+			Usage: "user related operations",
+			Subcommands: []cli.Command{
+				{
+					Name:   "list",
+					Usage:  "list users",
+					Flags:  cb.NewFlagBuilder().AddOutputFlag().AddAuthenticationFlags().Build(),
+					Before: ConfigRead,
+					Action: cb.ListUsers,
 					BashComplete: func(c *cli.Context) {
 						for _, f := range cb.NewFlagBuilder().AddOutputFlag().AddAuthenticationFlags().Build() {
 							printFlagCompletion(f)
