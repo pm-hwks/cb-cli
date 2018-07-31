@@ -201,7 +201,14 @@ func ListImagesValidForUpgrade(c *cli.Context) {
 
 	tableRows := []utils.Row{}
 	output := utils.Output{Format: c.String(FlOutputOptional.Name)}
+
 	for _, i := range imageResp.Payload.BaseImages {
+		tableRows = append(tableRows, &imageOut{i.Date, i.Description, i.Version, i.UUID})
+	}
+	for _, i := range imageResp.Payload.HdfImages {
+		tableRows = append(tableRows, &imageOut{i.Date, i.Description, i.Version, i.UUID})
+	}
+	for _, i := range imageResp.Payload.HdpImages {
 		tableRows = append(tableRows, &imageOut{i.Date, i.Description, i.Version, i.UUID})
 	}
 
