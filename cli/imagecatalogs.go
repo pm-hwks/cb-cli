@@ -184,6 +184,30 @@ func ListOpenstackImages(c *cli.Context) {
 	listImages(c)
 }
 
+func ListImagesValidForUpgrade(c *cli.Context) {
+	checkRequiredFlagsAndArguments(c)
+	defer utils.TimeTrack(time.Now(), "list images valid for stack upgrade")
+
+	cbClient := NewCloudbreakHTTPClientFromContext(c)
+
+	clusterName := c.String(FlClusterToUpgrade.Name)
+	imageCatalogName := c.String(FlImageCatalog.Name)
+
+	log.Infof("[ListImagesValidForUpgrade] sending list images request")
+	imageResp, err := cbClient.Cloudbreak.V1imagecatalogs.GetImagesByClusterNameAndCustomImageCatalog(v1imagecatalogs.NewGetImagesByClusterNameAndCustomImageCatalogParams().WithName(imageCatalogName).WithClusterName(clusterName))
+	if err != nil {
+		utils.LogErrorAndExit(err)
+	}
+
+	tableRows := []utils.Row{}
+	output := utils.Output{Format: c.String(FlOutputOptional.Name)}
+	for _, i := range imageResp.Payload.BaseImages {
+		tableRows = append(tableRows, &imageOut{i.Date, i.Description, i.Version, i.UUID})
+	}
+
+	output.WriteList(imageHeader, tableRows)
+}
+
 func listImages(c *cli.Context) {
 	checkRequiredFlagsAndArguments(c)
 	defer utils.TimeTrack(time.Now(), "list available images")

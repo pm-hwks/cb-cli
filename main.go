@@ -1321,6 +1321,18 @@ func main() {
 								}
 							},
 						},
+						{
+							Name:   "cluster-upgrade",
+							Usage:  "lists images valid for upgrading cluster",
+							Flags:  cb.NewFlagBuilder().AddFlags(cb.FlClusterToUpgrade).AddFlags(cb.FlImageCatalog).AddOutputFlag().AddAuthenticationFlags().Build(),
+							Before: ConfigRead,
+							Action: cb.ListImagesValidForUpgrade,
+							BashComplete: func(c *cli.Context) {
+								for _, f := range cb.NewFlagBuilder().AddFlags(cb.FlClusterToUpgrade).AddFlags(cb.FlImageCatalog).AddOutputFlag().AddAuthenticationFlags().Build() {
+									printFlagCompletion(f)
+								}
+							},
+						},
 					},
 				},
 				{
