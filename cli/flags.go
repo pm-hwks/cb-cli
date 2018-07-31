@@ -799,6 +799,13 @@ var (
 			Usage: "source cluster to use as datalake",
 		},
 	}
+	FlClusterToUpgrade = StringFlag{
+		RequiredFlag: REQUIRED,
+		StringFlag: cli.StringFlag{
+			Name:  "cluster",
+			Usage: "cluster to upgrade",
+		},
+	}
 	FlHostGroups = StringFlag{
 		RequiredFlag: REQUIRED,
 		StringFlag: cli.StringFlag{
