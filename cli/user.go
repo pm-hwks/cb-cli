@@ -10,7 +10,7 @@ import (
 	"github.com/urfave/cli"
 )
 
-var userListHeader = []string{"UserName"}
+var userListHeader = []string{"Name"}
 
 type userListOut models_cloudbreak.User
 

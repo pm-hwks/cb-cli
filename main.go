@@ -1671,6 +1671,24 @@ func main() {
 				},
 			},
 		},
+		{
+			Name:  "org",
+			Usage: "organization related operations",
+			Subcommands: []cli.Command{
+				{
+					Name:   "list",
+					Usage:  "list organizations",
+					Flags:  cb.NewFlagBuilder().AddOutputFlag().AddAuthenticationFlags().Build(),
+					Before: ConfigRead,
+					Action: cb.ListOrgs,
+					BashComplete: func(c *cli.Context) {
+						for _, f := range cb.NewFlagBuilder().AddOutputFlag().AddAuthenticationFlags().Build() {
+							printFlagCompletion(f)
+						}
+					},
+				},
+			},
+		},
 	}
 	sortByName(app.Commands)
 
