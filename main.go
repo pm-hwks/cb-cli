@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"os"
 	"sort"
+	"strconv"
 	"syscall"
 
 	"errors"
@@ -36,6 +37,7 @@ func ConfigRead(c *cli.Context) error {
 	output := c.String(cb.FlOutputOptional.Name)
 	profile := c.String(cb.FlProfileOptional.Name)
 	authType := c.String(cb.FlAuthTypeOptional.Name)
+	organization := c.String(cb.FlOrganization.Name)
 
 	if len(profile) == 0 {
 		profile = "default"
@@ -87,13 +89,29 @@ func ConfigRead(c *cli.Context) error {
 			set(cb.FlPassword.Name, config.Password)
 		}
 	}
+	if len(organization) == 0 {
+		if len(config.Organization) == 0 {
+			orgList := cb.GetOrgList(c)
+			if len(orgList) == 1 {
+				orgID := orgList[0].ID
+				set(cb.FlOrganization.Name, strconv.FormatInt(orgID, 10))
+			}
+		} else {
+			orgID := cb.GetOrgIdByName(c, config.Organization)
+			set(cb.FlOrganization.Name, strconv.FormatInt(orgID, 10))
+		}
+	} else {
+		orgID := cb.GetOrgIdByName(c, organization)
+		set(cb.FlOrganization.Name, strconv.FormatInt(orgID, 10))
+	}
 
 	server = c.String(cb.FlServerOptional.Name)
 	username = c.String(cb.FlUsername.Name)
 	password = c.String(cb.FlPassword.Name)
-	if len(server) == 0 || len(username) == 0 || len(password) == 0 {
+	organization = c.String(cb.FlOrganization.Name)
+	if len(server) == 0 || len(username) == 0 || len(password) == 0 || len(organization) == 0 {
 		log.Error(fmt.Sprintf("configuration is not set, see: cb configure --help or provide the following flags: %v",
-			[]string{"--" + cb.FlServerOptional.Name, "--" + cb.FlUsername.Name, "--" + cb.FlPassword.Name}))
+			[]string{"--" + cb.FlServerOptional.Name, "--" + cb.FlUsername.Name, "--" + cb.FlPassword.Name, "--" + cb.FlOrganization.Name}))
 		os.Exit(1)
 	}
 	return nil

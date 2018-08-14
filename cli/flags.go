@@ -862,6 +862,13 @@ var (
 			Usage: "id of audit",
 		},
 	}
+	FlOrganization = StringFlag{
+		RequiredFlag: OPTIONAL,
+		StringFlag: cli.StringFlag{
+			Name:  "org",
+			Usage: "name of the organization",
+		},
+	}
 )
 
 type RequiredFlag struct {
@@ -974,7 +981,7 @@ func (fb *FlagBuilder) AddFlags(flags ...cli.Flag) *FlagBuilder {
 }
 
 func (fb *FlagBuilder) AddAuthenticationFlags() *FlagBuilder {
-	for _, f := range []cli.Flag{FlServerOptional, FlUsername, FlPassword, FlProfileOptional, FlAuthTypeOptional} {
+	for _, f := range []cli.Flag{FlServerOptional, FlUsername, FlPassword, FlOrganization, FlProfileOptional, FlAuthTypeOptional} {
 		fb.flags = append(fb.flags, f)
 	}
 	return fb

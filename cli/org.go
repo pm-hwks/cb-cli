@@ -104,3 +104,25 @@ func ListOrgs(c *cli.Context) {
 	}
 	output.WriteList(orgListHeader, tableRows)
 }
+
+func GetOrgIdByName(c *cli.Context, orgName string) int64 {
+	cbClient := NewCloudbreakHTTPClientFromContext(c)
+
+	resp, err := cbClient.Cloudbreak.V3organizations.GetOrganizationByName(v3organizations.NewGetOrganizationByNameParams().WithName(orgName))
+	if err != nil {
+		utils.LogErrorAndExit(err)
+	}
+
+	return resp.Payload.ID
+}
+
+func GetOrgList(c *cli.Context) []*models_cloudbreak.OrganizationResponse {
+	cbClient := NewCloudbreakHTTPClientFromContext(c)
+
+	resp, err := cbClient.Cloudbreak.V3organizations.GetOrganizations(v3organizations.NewGetOrganizationsParams())
+	if err != nil {
+		utils.LogErrorAndExit(err)
+	}
+
+	return resp.Payload
+}
