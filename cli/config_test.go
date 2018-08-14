@@ -14,7 +14,7 @@ func TestWriteConfigToFileDirExists(t *testing.T) {
 	defer os.RemoveAll(tempDirName)
 	os.MkdirAll(tempDirName+string(filepath.Separator)+Config_dir, 0700)
 
-	writeConfigToFile(tempDirName, "server", "user", "password", "output", "default", "oauth2", "organization")
+	WriteConfigToFile(tempDirName, "server", "user", "password", "output", "default", "oauth2", "organization")
 
 	validateConfigContent(tempDirName, t)
 }
@@ -25,7 +25,7 @@ func TestWriteConfigToFileDirNotExists(t *testing.T) {
 	tempDirName, _ := ioutil.TempDir("", "configwritetest")
 	defer os.RemoveAll(tempDirName)
 
-	writeConfigToFile(tempDirName, "server", "user", "password", "output", "default", "oauth2", "organization")
+	WriteConfigToFile(tempDirName, "server", "user", "password", "output", "default", "oauth2", "organization")
 
 	validateConfigContent(tempDirName, t)
 }

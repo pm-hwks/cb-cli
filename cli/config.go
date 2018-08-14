@@ -50,7 +50,7 @@ func (c ConfigList) Yaml() string {
 func Configure(c *cli.Context) {
 	checkRequiredFlagsAndArguments(c)
 
-	err := writeConfigToFile(GetHomeDirectory(), c.String(FlServerOptional.Name),
+	err := WriteConfigToFile(GetHomeDirectory(), c.String(FlServerOptional.Name),
 		c.String(FlUsername.Name), c.String(FlPassword.Name),
 		c.String(FlOutputOptional.Name), c.String(FlProfileOptional.Name),
 		c.String(FlAuthTypeOptional.Name), c.String(FlOrganization.Name))
@@ -90,7 +90,7 @@ func ReadConfig(baseDir string, profile string) (*Config, error) {
 	}
 }
 
-func writeConfigToFile(baseDir, server, username, password, output, profile, authType, organization string) error {
+func WriteConfigToFile(baseDir, server, username, password, output, profile, authType, organization string) error {
 	configDir := baseDir + "/" + Config_dir
 	configFile := configDir + "/" + Config_file
 	if len(profile) == 0 {

@@ -92,10 +92,18 @@ func ConfigRead(c *cli.Context) error {
 	if len(organization) == 0 {
 		if len(config.Organization) == 0 {
 			orgList := cb.GetOrgList(c)
-			if len(orgList) == 1 {
-				orgID := orgList[0].ID
-				set(cb.FlOrganization.Name, strconv.FormatInt(orgID, 10))
+			var orgID string
+			for _, org := range orgList {
+				if org.Name == c.String(cb.FlUsername.Name) {
+					orgID = strconv.FormatInt(org.ID, 10)
+				}
 			}
+
+			err = cb.WriteConfigToFile(cb.GetHomeDirectory(), config.Server, config.Username, config.Password, config.Output, profile, config.AuthType, config.Username)
+			if err != nil {
+				utils.LogErrorAndExit(err)
+			}
+			set(cb.FlOrganization.Name, orgID)
 		} else {
 			orgID := cb.GetOrgIdByName(c, config.Organization)
 			set(cb.FlOrganization.Name, strconv.FormatInt(orgID, 10))
