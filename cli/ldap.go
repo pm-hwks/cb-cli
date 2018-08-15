@@ -200,7 +200,7 @@ func DeleteLdap(c *cli.Context) error {
 	log.Infof("[DeleteLdap] delete ldap config by name: %s", ldapName)
 	cbClient := NewCloudbreakHTTPClientFromContext(c)
 
-	if _, err := cbClient.Cloudbreak.V3OrganizationIDLdapconfigs.DeleteLdapConfigsInOrganization(v3_organization_id_ldapconfigs.NewDeleteLdapConfigsInOrganizationParams().WithOrganizationID(orgID).WithLdapConfigName(ldapName)); err != nil {
+	if _, err := cbClient.Cloudbreak.V3OrganizationIDLdapconfigs.DeleteLdapConfigsInOrganization(v3_organization_id_ldapconfigs.NewDeleteLdapConfigsInOrganizationParams().WithOrganizationID(orgID).WithName(ldapName)); err != nil {
 		utils.LogErrorAndExit(err)
 	}
 	log.Infof("[DeleteLdap] ldap config deleted: %s", ldapName)

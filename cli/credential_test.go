@@ -100,8 +100,8 @@ func TestListCredentialsImpl(t *testing.T) {
 type mockCredentialModifyClient struct {
 }
 
-func (m *mockCredentialModifyClient) CreateCredentialInOrganization(params *v3_organization_id_credentials.CreateCredentialInOrganizationParams) (*v3_organization_id_credentials.CreateCredentialInOrganizationOK, error) {
-	return &v3_organization_id_credentials.CreateCredentialInOrganizationOK{Payload: &models_cloudbreak.CredentialResponse{
+func (m *mockCredentialModifyClient) PutCredentialInOrganization(params *v3_organization_id_credentials.PutCredentialInOrganizationParams) (*v3_organization_id_credentials.PutCredentialInOrganizationOK, error) {
+	return &v3_organization_id_credentials.PutCredentialInOrganizationOK{Payload: &models_cloudbreak.CredentialResponse{
 		ID:            int64(1),
 		Name:          params.Body.Name,
 		Description:   params.Body.Description,
@@ -138,7 +138,7 @@ func (m *mockCredentialModifyClient) GetCredentialInOrganization(params *v3_orga
 
 func TestModifyCredentialImplForValidChange(t *testing.T) {
 	t.Parallel()
-	t.Skip("Missing API")
+
 	expectedArn := "my-role-arn"
 	expectedDesc := "default description"
 
@@ -179,7 +179,7 @@ func TestModifyCredentialImplForValidChange(t *testing.T) {
 
 func TestModifyCredentialImplForDescriptionChange(t *testing.T) {
 	t.Parallel()
-	t.Skip("Missing API")
+
 	expectedArn := "my-role-arn"
 	expectedDesc := "new-description"
 
@@ -220,7 +220,7 @@ func TestModifyCredentialImplForDescriptionChange(t *testing.T) {
 
 func TestModifyCredentialImplForDescriptionPublicChange(t *testing.T) {
 	t.Parallel()
-	t.Skip("Missing API")
+
 	expectedArn := "my-role-arn"
 	expectedDesc := "new-description"
 
@@ -264,7 +264,7 @@ func TestModifyCredentialImplForDescriptionPublicChange(t *testing.T) {
 
 func TestModifyCredentialImplForInvalidCredential(t *testing.T) {
 	t.Parallel()
-	t.Skip("Missing API")
+
 	defer func() {
 		if r := recover(); r != nil {
 			errorMessage := r.(string)

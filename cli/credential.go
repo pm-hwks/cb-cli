@@ -141,8 +141,8 @@ func modifyCredential(c *cli.Context, credentialParameters map[string]interface{
 }
 
 type modifyCredentialClient interface {
-	CreateCredentialInOrganization(params *v3_organization_id_credentials.CreateCredentialInOrganizationParams) (*v3_organization_id_credentials.CreateCredentialInOrganizationOK, error)
 	GetCredentialInOrganization(params *v3_organization_id_credentials.GetCredentialInOrganizationParams) (*v3_organization_id_credentials.GetCredentialInOrganizationOK, error)
+	PutCredentialInOrganization(params *v3_organization_id_credentials.PutCredentialInOrganizationParams) (*v3_organization_id_credentials.PutCredentialInOrganizationOK, error)
 }
 
 func modifyCredentialImpl(stringFinder func(string) string, int64Finder func(string) int64, client modifyCredentialClient, credentialParameters map[string]interface{}) *models_cloudbreak.CredentialResponse {
@@ -196,13 +196,13 @@ func getCredential(orgID int64, name string, client modifyCredentialClient) *mod
 func putCredential(client modifyCredentialClient, orgID int64, credReq *models_cloudbreak.CredentialRequest) *models_cloudbreak.CredentialResponse {
 	var credential *models_cloudbreak.CredentialResponse
 	log.Infof("[putCredential] modify public credential: %s", *credReq.Name)
-	// TODO Update credential endpoint is missing
-	// resp, err := client.CreateCredentialInOrganization(v3_organization_id_credentials.NewCreateCredentialInOrganizationParams().WithOrganizationID(orgID).WithBody(credReq))
-	// if err != nil {
-	// 	utils.LogErrorAndExit(err)
-	// }
-	utils.LogErrorMessage("Missing endpoint")
-	// credential = resp.Payload
+
+	resp, err := client.PutCredentialInOrganization(v3_organization_id_credentials.NewPutCredentialInOrganizationParams().WithOrganizationID(orgID).WithBody(credReq))
+	if err != nil {
+		utils.LogErrorAndExit(err)
+	}
+
+	credential = resp.Payload
 
 	return credential
 }
