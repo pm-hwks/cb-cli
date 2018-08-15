@@ -147,14 +147,15 @@ func SetDefaultImagecatalog(c *cli.Context) {
 	checkRequiredFlagsAndArguments(c)
 	defer utils.TimeTrack(time.Now(), "set default imagecatalog")
 
-	// cbClient := NewCloudbreakHTTPClientFromContext(c)
+	cbClient := NewCloudbreakHTTPClientFromContext(c)
+	orgID := c.Int64(FlOrganization.Name)
 	name := c.String(FlName.Name)
 	log.Infof("[SetDefautlImagecatalog] sending set default imagecatalog request with name: %s", name)
-	// TODO Replace with PUT call when added
-	// if _, err := cbClient.Cloudbreak.V3OrganizationIDImagecatalogs.PutSetDefaultImageCatalogByName(v3_organization_id_imagecatalogs.NewPutSetDefaultImageCatalogByNameParams().WithOrganizationID(orgID).WithName(name)); err != nil {
-	// 	utils.LogErrorAndExit(err)
-	// }
-	utils.LogErrorMessage("Missing endpoint")
+
+	if _, err := cbClient.Cloudbreak.V3OrganizationIDImagecatalogs.PutSetDefaultImageCatalogByNameInOrganization(v3_organization_id_imagecatalogs.NewPutSetDefaultImageCatalogByNameInOrganizationParams().WithOrganizationID(orgID).WithName(name)); err != nil {
+		utils.LogErrorAndExit(err)
+	}
+
 	log.Infof("[SetDefaultImagecatalog] imagecatalog is set as default, name: %s", name)
 }
 
@@ -184,35 +185,34 @@ func listImages(c *cli.Context) {
 
 	cbClient := NewCloudbreakHTTPClientFromContext(c)
 	output := utils.Output{Format: c.String(FlOutputOptional.Name)}
-	listImagesImpl(cbClient.Cloudbreak.V3OrganizationIDImagecatalogs, output.WriteList, c.String(FlImageCatalog.Name))
+	listImagesImpl(cbClient.Cloudbreak.V3OrganizationIDImagecatalogs, output.WriteList, c.Int64(FlOrganization.Name), c.String(FlImageCatalog.Name))
 }
 
 func ListImagesValidForUpgrade(c *cli.Context) {
 	checkRequiredFlagsAndArguments(c)
 	defer utils.TimeTrack(time.Now(), "list images valid for stack upgrade")
 
-	// cbClient := NewCloudbreakHTTPClientFromContext(c)
+	cbClient := NewCloudbreakHTTPClientFromContext(c)
 
-	// clusterName := c.String(FlClusterToUpgrade.Name)
-	// imageCatalogName := c.String(FlImageCatalogOptional.Name)
-	// output := utils.Output{Format: c.String(FlOutputOptional.Name)}
-
-	utils.LogErrorMessage("Missing endpoint")
-	// if imageCatalogName != "" {
-	// 	log.Infof("[ListImagesValidForUpgrade] sending list images request, stack: %s, catalog: %s", clusterName, imageCatalogName)
-	// 	imageResp, err := cbClient.Cloudbreak.V3OrganizationIDImagecatalogs.GetImagesByStackNameAndCustomImageCatalog(v3_organization_id_imagecatalogs.NewGetImagesByStackNameAndCustomImageCatalogParams().WithOrganizationID(orgID).WithName(imageCatalogName).WithStackName(clusterName))
-	// 	if err != nil {
-	// 		utils.LogErrorAndExit(err)
-	// 	}
-	// 	writeImageListInformation(output.WriteList, toImageResponseList(imageResp.Payload))
-	// } else {
-	// 	log.Infof("[ListImagesValidForUpgrade] sending list images request using the default catalog, stack: %s", clusterName)
-	// 	imageResp, err := cbClient.Cloudbreak.V3OrganizationIDImagecatalogs.GetImagesByStackNameAndDefaultImageCatalog(v3_organization_id_imagecatalogs.NewGetImagesByStackNameAndDefaultImageCatalogParams().WithOrganizationID(orgID).WithStackName(clusterName))
-	// 	if err != nil {
-	// 		utils.LogErrorAndExit(err)
-	// 	}
-	// 	writeImageListInformation(output.WriteList, toImageResponseList(imageResp.Payload))
-	// }
+	clusterName := c.String(FlClusterToUpgrade.Name)
+	imageCatalogName := c.String(FlImageCatalogOptional.Name)
+	output := utils.Output{Format: c.String(FlOutputOptional.Name)}
+	orgID := c.Int64(FlOrganization.Name)
+	if imageCatalogName != "" {
+		log.Infof("[ListImagesValidForUpgrade] sending list images request, stack: %s, catalog: %s", clusterName, imageCatalogName)
+		imageResp, err := cbClient.Cloudbreak.V3OrganizationIDImagecatalogs.GetImagesByStackNameAndCustomImageCatalogInOrganization(v3_organization_id_imagecatalogs.NewGetImagesByStackNameAndCustomImageCatalogInOrganizationParams().WithOrganizationID(orgID).WithName(imageCatalogName).WithStackName(clusterName))
+		if err != nil {
+			utils.LogErrorAndExit(err)
+		}
+		writeImageListInformation(output.WriteList, toImageResponseList(imageResp.Payload))
+	} else {
+		log.Infof("[ListImagesValidForUpgrade] sending list images request using the default catalog, stack: %s", clusterName)
+		imageResp, err := cbClient.Cloudbreak.V3OrganizationIDImagecatalogs.GetImagesByStackNameAndDefaultImageCatalogInOrganization(v3_organization_id_imagecatalogs.NewGetImagesByStackNameAndDefaultImageCatalogInOrganizationParams().WithOrganizationID(orgID).WithStackName(clusterName))
+		if err != nil {
+			utils.LogErrorAndExit(err)
+		}
+		writeImageListInformation(output.WriteList, toImageResponseList(imageResp.Payload))
+	}
 }
 
 func toImageResponseList(images *models_cloudbreak.ImagesResponse) []*models_cloudbreak.ImageResponse {
@@ -256,24 +256,23 @@ func describeImage(c *cli.Context) {
 
 	cbClient := NewCloudbreakHTTPClientFromContext(c)
 	output := utils.Output{Format: c.String(FlOutputOptional.Name)}
-	describeImageImpl(cbClient.Cloudbreak.V3OrganizationIDImagecatalogs, output.WriteList, c.String(FlImageCatalog.Name), c.String(FlImageId.Name))
+	describeImageImpl(cbClient.Cloudbreak.V3OrganizationIDImagecatalogs, output.WriteList, c.Int64(FlOrganization.Name), c.String(FlImageCatalog.Name), c.String(FlImageId.Name))
 }
 
-func describeImageImpl(client getPublicImagesClient, writer func([]string, []utils.Row), imagecatalog string, imageid string) {
+func describeImageImpl(client getPublicImagesClient, writer func([]string, []utils.Row), orgID int64, imagecatalog string, imageid string) {
 	log.Infof("[listImagesImpl] sending list images request")
-	// provider := cloud.GetProvider().GetName()
-	// imageResp, err := client.GetPublicImagesByProviderAndCustomImageCatalog(v3_organization_id_imagecatalogs.NewGetPublicImagesByProviderAndCustomImageCatalogParams().WithOrganizationID(orgID).WithName(imagecatalog).WithPlatform(*provider))
-	// if err != nil {
-	// 	utils.LogErrorAndExit(err)
-	// }
+	provider := cloud.GetProvider().GetName()
+	imageResp, err := client.GetImagesByProviderAndCustomImageCatalogInOrganization(v3_organization_id_imagecatalogs.NewGetImagesByProviderAndCustomImageCatalogInOrganizationParams().WithOrganizationID(orgID).WithName(imagecatalog).WithPlatform(*provider))
+	if err != nil {
+		utils.LogErrorAndExit(err)
+	}
 
-	// image := findImageByUUID(imageResp.Payload, imageid)
-	// if image == nil {
-	// utils.LogErrorMessage(fmt.Sprintf("Image not found by id: %s for cloud: %s", imageid, *provider))
-	// }
-	utils.LogErrorMessage("Missing endpoint")
+	image := findImageByUUID(imageResp.Payload, imageid)
+	if image == nil {
+		utils.LogErrorMessage(fmt.Sprintf("Image not found by id: %s for cloud: %s", imageid, *provider))
+	}
 
-	// writeImageInformation(writer, image)
+	writeImageInformation(writer, image)
 }
 
 func findImageByUUID(imageResponse *models_cloudbreak.ImagesResponse, imageID string) *models_cloudbreak.ImageResponse {
@@ -335,21 +334,21 @@ func writeImageListInformation(writer func([]string, []utils.Row), payload []*mo
 }
 
 type getPublicImagesClient interface {
-	// GetPublicImagesByProviderAndCustomImageCatalog(*v3_organization_id_imagecatalogs.GetPublicImagesByProviderAndCustomImageCatalogParams) (*v3_organization_id_imagecatalogs.GetPublicImagesByProviderAndCustomImageCatalogOK, error)
+	GetImagesByProviderAndCustomImageCatalogInOrganization(*v3_organization_id_imagecatalogs.GetImagesByProviderAndCustomImageCatalogInOrganizationParams) (*v3_organization_id_imagecatalogs.GetImagesByProviderAndCustomImageCatalogInOrganizationOK, error)
 }
 
-func listImagesImpl(client getPublicImagesClient, writer func([]string, []utils.Row), imagecatalog string) {
+func listImagesImpl(client getPublicImagesClient, writer func([]string, []utils.Row), orgID int64, imagecatalog string) {
 	log.Infof("[listImagesImpl] sending list images request")
-	// provider := cloud.GetProvider().GetName()
-	// imageResp, err := client.GetPublicImagesByProviderAndCustomImageCatalog(v3_organization_id_imagecatalogs.NewGetPublicImagesByProviderAndCustomImageCatalogParams().WithOrganizationID(orgID).WithName(imagecatalog).WithPlatform(*provider))
-	// if err != nil {
-	// 	utils.LogErrorAndExit(err)
-	// }
-	utils.LogErrorMessage("Missing endpoint")
+	provider := cloud.GetProvider().GetName()
+	imageResp, err := client.GetImagesByProviderAndCustomImageCatalogInOrganization(v3_organization_id_imagecatalogs.NewGetImagesByProviderAndCustomImageCatalogInOrganizationParams().WithOrganizationID(orgID).WithName(imagecatalog).WithPlatform(*provider))
+	if err != nil {
+		utils.LogErrorAndExit(err)
+	}
+
 	tableRows := []utils.Row{}
-	// for _, i := range imageResp.Payload.BaseImages {
-	// 	tableRows = append(tableRows, &imageOut{i.Date, i.Description, i.Version, i.UUID})
-	// }
+	for _, i := range imageResp.Payload.BaseImages {
+		tableRows = append(tableRows, &imageOut{i.Date, i.Description, i.Version, i.UUID})
+	}
 
 	writer(imageHeader, tableRows)
 
