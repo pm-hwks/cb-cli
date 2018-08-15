@@ -128,7 +128,7 @@ func (a *Client) DeleteInstanceStackV3(params *DeleteInstanceStackV3Params) (*De
 	result, err := a.transport.Submit(&runtime.ClientOperation{
 		ID:                 "deleteInstanceStackV3",
 		Method:             "DELETE",
-		PathPattern:        "/v3/{organizationId}/stack/{stackId}/instance/{instanceId}",
+		PathPattern:        "/v3/{organizationId}/stack/{name}/instance/{instanceId}",
 		ProducesMediaTypes: []string{"application/json"},
 		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"http", "https"},

@@ -68,7 +68,7 @@ func (a *Client) DeleteLdapConfigsInOrganization(params *DeleteLdapConfigsInOrga
 	result, err := a.transport.Submit(&runtime.ClientOperation{
 		ID:                 "deleteLdapConfigsInOrganization",
 		Method:             "DELETE",
-		PathPattern:        "/v3/{organizationId}/ldapconfigs/{ldapConfigName}",
+		PathPattern:        "/v3/{organizationId}/ldapconfigs/{name}",
 		ProducesMediaTypes: []string{"application/json"},
 		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"http", "https"},
@@ -98,7 +98,7 @@ func (a *Client) GetLdapConfigInOrganization(params *GetLdapConfigInOrganization
 	result, err := a.transport.Submit(&runtime.ClientOperation{
 		ID:                 "getLdapConfigInOrganization",
 		Method:             "GET",
-		PathPattern:        "/v3/{organizationId}/ldapconfigs/{ldapConfigName}",
+		PathPattern:        "/v3/{organizationId}/ldapconfigs/{name}",
 		ProducesMediaTypes: []string{"application/json"},
 		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"http", "https"},
@@ -141,6 +141,34 @@ func (a *Client) ListLdapsByOrganization(params *ListLdapsByOrganizationParams) 
 		return nil, err
 	}
 	return result.(*ListLdapsByOrganizationOK), nil
+
+}
+
+/*
+PostLdapConnectionTestInOrganization tests that the connection could be established of an existing or new l d a p config
+*/
+func (a *Client) PostLdapConnectionTestInOrganization(params *PostLdapConnectionTestInOrganizationParams) (*PostLdapConnectionTestInOrganizationOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewPostLdapConnectionTestInOrganizationParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "postLdapConnectionTestInOrganization",
+		Method:             "POST",
+		PathPattern:        "/v3/{organizationId}/ldapconfigs/testconnect",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http", "https"},
+		Params:             params,
+		Reader:             &PostLdapConnectionTestInOrganizationReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	return result.(*PostLdapConnectionTestInOrganizationOK), nil
 
 }
 

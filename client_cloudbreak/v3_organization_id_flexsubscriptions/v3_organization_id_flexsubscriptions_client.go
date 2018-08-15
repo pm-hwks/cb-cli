@@ -144,6 +144,66 @@ func (a *Client) ListFlexSubscriptionsByOrganization(params *ListFlexSubscriptio
 
 }
 
+/*
+PutDefaultFlexSubscriptionByNameInOrganization sets the organization default flag on the flex subscription
+
+Flex subscriptions could be configured.
+*/
+func (a *Client) PutDefaultFlexSubscriptionByNameInOrganization(params *PutDefaultFlexSubscriptionByNameInOrganizationParams) error {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewPutDefaultFlexSubscriptionByNameInOrganizationParams()
+	}
+
+	_, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "putDefaultFlexSubscriptionByNameInOrganization",
+		Method:             "PUT",
+		PathPattern:        "/v3/{organizationId}/flexsubscriptions/setdefault/{name}",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http", "https"},
+		Params:             params,
+		Reader:             &PutDefaultFlexSubscriptionByNameInOrganizationReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return err
+	}
+	return nil
+
+}
+
+/*
+PutUsedForControllerFlexSubscriptionByNameInOrganization sets the organization used for controller flag on the flex subscription
+
+Flex subscriptions could be configured.
+*/
+func (a *Client) PutUsedForControllerFlexSubscriptionByNameInOrganization(params *PutUsedForControllerFlexSubscriptionByNameInOrganizationParams) error {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewPutUsedForControllerFlexSubscriptionByNameInOrganizationParams()
+	}
+
+	_, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "putUsedForControllerFlexSubscriptionByNameInOrganization",
+		Method:             "PUT",
+		PathPattern:        "/v3/{organizationId}/flexsubscriptions/setusedforcontroller/{name}",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http", "https"},
+		Params:             params,
+		Reader:             &PutUsedForControllerFlexSubscriptionByNameInOrganizationReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return err
+	}
+	return nil
+
+}
+
 // SetTransport changes the transport on the client
 func (a *Client) SetTransport(transport runtime.ClientTransport) {
 	a.transport = transport

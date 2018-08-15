@@ -51,7 +51,7 @@ type GetLdapConfigInOrganizationOK struct {
 }
 
 func (o *GetLdapConfigInOrganizationOK) Error() string {
-	return fmt.Sprintf("[GET /v3/{organizationId}/ldapconfigs/{ldapConfigName}][%d] getLdapConfigInOrganizationOK  %+v", 200, o.Payload)
+	return fmt.Sprintf("[GET /v3/{organizationId}/ldapconfigs/{name}][%d] getLdapConfigInOrganizationOK  %+v", 200, o.Payload)
 }
 
 func (o *GetLdapConfigInOrganizationOK) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {

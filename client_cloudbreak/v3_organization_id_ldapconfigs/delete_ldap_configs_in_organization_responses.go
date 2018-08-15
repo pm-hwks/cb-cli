@@ -51,7 +51,7 @@ type DeleteLdapConfigsInOrganizationOK struct {
 }
 
 func (o *DeleteLdapConfigsInOrganizationOK) Error() string {
-	return fmt.Sprintf("[DELETE /v3/{organizationId}/ldapconfigs/{ldapConfigName}][%d] deleteLdapConfigsInOrganizationOK  %+v", 200, o.Payload)
+	return fmt.Sprintf("[DELETE /v3/{organizationId}/ldapconfigs/{name}][%d] deleteLdapConfigsInOrganizationOK  %+v", 200, o.Payload)
 }
 
 func (o *DeleteLdapConfigsInOrganizationOK) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {

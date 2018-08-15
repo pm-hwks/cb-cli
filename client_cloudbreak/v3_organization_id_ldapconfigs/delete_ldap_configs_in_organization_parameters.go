@@ -63,8 +63,8 @@ for the delete ldap configs in organization operation typically these are writte
 */
 type DeleteLdapConfigsInOrganizationParams struct {
 
-	/*LdapConfigName*/
-	LdapConfigName string
+	/*Name*/
+	Name string
 	/*OrganizationID*/
 	OrganizationID int64
 
@@ -106,15 +106,15 @@ func (o *DeleteLdapConfigsInOrganizationParams) SetHTTPClient(client *http.Clien
 	o.HTTPClient = client
 }
 
-// WithLdapConfigName adds the ldapConfigName to the delete ldap configs in organization params
-func (o *DeleteLdapConfigsInOrganizationParams) WithLdapConfigName(ldapConfigName string) *DeleteLdapConfigsInOrganizationParams {
-	o.SetLdapConfigName(ldapConfigName)
+// WithName adds the name to the delete ldap configs in organization params
+func (o *DeleteLdapConfigsInOrganizationParams) WithName(name string) *DeleteLdapConfigsInOrganizationParams {
+	o.SetName(name)
 	return o
 }
 
-// SetLdapConfigName adds the ldapConfigName to the delete ldap configs in organization params
-func (o *DeleteLdapConfigsInOrganizationParams) SetLdapConfigName(ldapConfigName string) {
-	o.LdapConfigName = ldapConfigName
+// SetName adds the name to the delete ldap configs in organization params
+func (o *DeleteLdapConfigsInOrganizationParams) SetName(name string) {
+	o.Name = name
 }
 
 // WithOrganizationID adds the organizationID to the delete ldap configs in organization params
@@ -136,8 +136,8 @@ func (o *DeleteLdapConfigsInOrganizationParams) WriteToRequest(r runtime.ClientR
 	}
 	var res []error
 
-	// path param ldapConfigName
-	if err := r.SetPathParam("ldapConfigName", o.LdapConfigName); err != nil {
+	// path param name
+	if err := r.SetPathParam("name", o.Name); err != nil {
 		return err
 	}
 

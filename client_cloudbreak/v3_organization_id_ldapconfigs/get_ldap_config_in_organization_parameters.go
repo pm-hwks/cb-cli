@@ -63,8 +63,8 @@ for the get ldap config in organization operation typically these are written to
 */
 type GetLdapConfigInOrganizationParams struct {
 
-	/*LdapConfigName*/
-	LdapConfigName string
+	/*Name*/
+	Name string
 	/*OrganizationID*/
 	OrganizationID int64
 
@@ -106,15 +106,15 @@ func (o *GetLdapConfigInOrganizationParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
 }
 
-// WithLdapConfigName adds the ldapConfigName to the get ldap config in organization params
-func (o *GetLdapConfigInOrganizationParams) WithLdapConfigName(ldapConfigName string) *GetLdapConfigInOrganizationParams {
-	o.SetLdapConfigName(ldapConfigName)
+// WithName adds the name to the get ldap config in organization params
+func (o *GetLdapConfigInOrganizationParams) WithName(name string) *GetLdapConfigInOrganizationParams {
+	o.SetName(name)
 	return o
 }
 
-// SetLdapConfigName adds the ldapConfigName to the get ldap config in organization params
-func (o *GetLdapConfigInOrganizationParams) SetLdapConfigName(ldapConfigName string) {
-	o.LdapConfigName = ldapConfigName
+// SetName adds the name to the get ldap config in organization params
+func (o *GetLdapConfigInOrganizationParams) SetName(name string) {
+	o.Name = name
 }
 
 // WithOrganizationID adds the organizationID to the get ldap config in organization params
@@ -136,8 +136,8 @@ func (o *GetLdapConfigInOrganizationParams) WriteToRequest(r runtime.ClientReque
 	}
 	var res []error
 
-	// path param ldapConfigName
-	if err := r.SetPathParam("ldapConfigName", o.LdapConfigName); err != nil {
+	// path param name
+	if err := r.SetPathParam("name", o.Name); err != nil {
 		return err
 	}
 

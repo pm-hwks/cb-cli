@@ -79,10 +79,10 @@ type DeleteInstanceStackV3Params struct {
 	Forced *bool
 	/*InstanceID*/
 	InstanceID string
+	/*Name*/
+	Name string
 	/*OrganizationID*/
 	OrganizationID int64
-	/*StackID*/
-	StackID int64
 
 	timeout    time.Duration
 	Context    context.Context
@@ -144,6 +144,17 @@ func (o *DeleteInstanceStackV3Params) SetInstanceID(instanceID string) {
 	o.InstanceID = instanceID
 }
 
+// WithName adds the name to the delete instance stack v3 params
+func (o *DeleteInstanceStackV3Params) WithName(name string) *DeleteInstanceStackV3Params {
+	o.SetName(name)
+	return o
+}
+
+// SetName adds the name to the delete instance stack v3 params
+func (o *DeleteInstanceStackV3Params) SetName(name string) {
+	o.Name = name
+}
+
 // WithOrganizationID adds the organizationID to the delete instance stack v3 params
 func (o *DeleteInstanceStackV3Params) WithOrganizationID(organizationID int64) *DeleteInstanceStackV3Params {
 	o.SetOrganizationID(organizationID)
@@ -153,17 +164,6 @@ func (o *DeleteInstanceStackV3Params) WithOrganizationID(organizationID int64) *
 // SetOrganizationID adds the organizationId to the delete instance stack v3 params
 func (o *DeleteInstanceStackV3Params) SetOrganizationID(organizationID int64) {
 	o.OrganizationID = organizationID
-}
-
-// WithStackID adds the stackID to the delete instance stack v3 params
-func (o *DeleteInstanceStackV3Params) WithStackID(stackID int64) *DeleteInstanceStackV3Params {
-	o.SetStackID(stackID)
-	return o
-}
-
-// SetStackID adds the stackId to the delete instance stack v3 params
-func (o *DeleteInstanceStackV3Params) SetStackID(stackID int64) {
-	o.StackID = stackID
 }
 
 // WriteToRequest writes these params to a swagger request
@@ -195,13 +195,13 @@ func (o *DeleteInstanceStackV3Params) WriteToRequest(r runtime.ClientRequest, re
 		return err
 	}
 
-	// path param organizationId
-	if err := r.SetPathParam("organizationId", swag.FormatInt64(o.OrganizationID)); err != nil {
+	// path param name
+	if err := r.SetPathParam("name", o.Name); err != nil {
 		return err
 	}
 
-	// path param stackId
-	if err := r.SetPathParam("stackId", swag.FormatInt64(o.StackID)); err != nil {
+	// path param organizationId
+	if err := r.SetPathParam("organizationId", swag.FormatInt64(o.OrganizationID)); err != nil {
 		return err
 	}
 

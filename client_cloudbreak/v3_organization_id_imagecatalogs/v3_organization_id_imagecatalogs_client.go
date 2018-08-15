@@ -115,6 +115,96 @@ func (a *Client) GetImageCatalogInOrganization(params *GetImageCatalogInOrganiza
 }
 
 /*
+GetImagesByProviderAndCustomImageCatalogInOrganization determines available images for the cloudbreak version by the given provider and given image catalog url
+
+Provides an interface to determine available Virtual Machine images for the given version of Cloudbreak.
+*/
+func (a *Client) GetImagesByProviderAndCustomImageCatalogInOrganization(params *GetImagesByProviderAndCustomImageCatalogInOrganizationParams) (*GetImagesByProviderAndCustomImageCatalogInOrganizationOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewGetImagesByProviderAndCustomImageCatalogInOrganizationParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "getImagesByProviderAndCustomImageCatalogInOrganization",
+		Method:             "GET",
+		PathPattern:        "/v3/{organizationId}/imagecatalogs/account/{name}/{platform}",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http", "https"},
+		Params:             params,
+		Reader:             &GetImagesByProviderAndCustomImageCatalogInOrganizationReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	return result.(*GetImagesByProviderAndCustomImageCatalogInOrganizationOK), nil
+
+}
+
+/*
+GetImagesByStackNameAndCustomImageCatalogInOrganization determines available images for the given stackfrom the given imagecatalog name
+
+Provides an interface to determine available Virtual Machine images for the given stack.Please consider running sync beforehand
+*/
+func (a *Client) GetImagesByStackNameAndCustomImageCatalogInOrganization(params *GetImagesByStackNameAndCustomImageCatalogInOrganizationParams) (*GetImagesByStackNameAndCustomImageCatalogInOrganizationOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewGetImagesByStackNameAndCustomImageCatalogInOrganizationParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "getImagesByStackNameAndCustomImageCatalogInOrganization",
+		Method:             "GET",
+		PathPattern:        "/v3/{organizationId}/imagecatalogs/upgrade/{stackName}/{name}",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http", "https"},
+		Params:             params,
+		Reader:             &GetImagesByStackNameAndCustomImageCatalogInOrganizationReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	return result.(*GetImagesByStackNameAndCustomImageCatalogInOrganizationOK), nil
+
+}
+
+/*
+GetImagesByStackNameAndDefaultImageCatalogInOrganization determines available images for the given stackfrom the default image catalog
+
+Provides an interface to determine available Virtual Machine images for the given stack.Please consider running sync beforehand
+*/
+func (a *Client) GetImagesByStackNameAndDefaultImageCatalogInOrganization(params *GetImagesByStackNameAndDefaultImageCatalogInOrganizationParams) (*GetImagesByStackNameAndDefaultImageCatalogInOrganizationOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewGetImagesByStackNameAndDefaultImageCatalogInOrganizationParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "getImagesByStackNameAndDefaultImageCatalogInOrganization",
+		Method:             "GET",
+		PathPattern:        "/v3/{organizationId}/imagecatalogs/upgrade/{stackName}",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http", "https"},
+		Params:             params,
+		Reader:             &GetImagesByStackNameAndDefaultImageCatalogInOrganizationReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	return result.(*GetImagesByStackNameAndDefaultImageCatalogInOrganizationOK), nil
+
+}
+
+/*
 ListImageCatalogsByOrganization lists image catalogs for the given organization
 
 Provides an interface to determine available Virtual Machine images for the given version of Cloudbreak.
@@ -141,6 +231,66 @@ func (a *Client) ListImageCatalogsByOrganization(params *ListImageCatalogsByOrga
 		return nil, err
 	}
 	return result.(*ListImageCatalogsByOrganizationOK), nil
+
+}
+
+/*
+PutPublicImageCatalogInOrganization updates public owned or private image catalog by id
+
+Provides an interface to determine available Virtual Machine images for the given version of Cloudbreak.
+*/
+func (a *Client) PutPublicImageCatalogInOrganization(params *PutPublicImageCatalogInOrganizationParams) (*PutPublicImageCatalogInOrganizationOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewPutPublicImageCatalogInOrganizationParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "putPublicImageCatalogInOrganization",
+		Method:             "PUT",
+		PathPattern:        "/v3/{organizationId}/imagecatalogs",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http", "https"},
+		Params:             params,
+		Reader:             &PutPublicImageCatalogInOrganizationReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	return result.(*PutPublicImageCatalogInOrganizationOK), nil
+
+}
+
+/*
+PutSetDefaultImageCatalogByNameInOrganization updates public owned or private image catalog by id
+
+Provides an interface to determine available Virtual Machine images for the given version of Cloudbreak.
+*/
+func (a *Client) PutSetDefaultImageCatalogByNameInOrganization(params *PutSetDefaultImageCatalogByNameInOrganizationParams) (*PutSetDefaultImageCatalogByNameInOrganizationOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewPutSetDefaultImageCatalogByNameInOrganizationParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "putSetDefaultImageCatalogByNameInOrganization",
+		Method:             "PUT",
+		PathPattern:        "/v3/{organizationId}/imagecatalogs/setdefault/{name}",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http", "https"},
+		Params:             params,
+		Reader:             &PutSetDefaultImageCatalogByNameInOrganizationReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	return result.(*PutSetDefaultImageCatalogByNameInOrganizationOK), nil
 
 }
 

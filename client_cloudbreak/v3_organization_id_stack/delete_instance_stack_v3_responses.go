@@ -51,7 +51,7 @@ type DeleteInstanceStackV3OK struct {
 }
 
 func (o *DeleteInstanceStackV3OK) Error() string {
-	return fmt.Sprintf("[DELETE /v3/{organizationId}/stack/{stackId}/instance/{instanceId}][%d] deleteInstanceStackV3OK  %+v", 200, o.Payload)
+	return fmt.Sprintf("[DELETE /v3/{organizationId}/stack/{name}/instance/{instanceId}][%d] deleteInstanceStackV3OK  %+v", 200, o.Payload)
 }
 
 func (o *DeleteInstanceStackV3OK) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
