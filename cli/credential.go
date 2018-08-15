@@ -197,11 +197,12 @@ func putCredential(client modifyCredentialClient, orgID int64, credReq *models_c
 	var credential *models_cloudbreak.CredentialResponse
 	log.Infof("[putCredential] modify public credential: %s", *credReq.Name)
 	// TODO Update credential endpoint is missing
-	resp, err := client.CreateCredentialInOrganization(v3_organization_id_credentials.NewCreateCredentialInOrganizationParams().WithOrganizationID(orgID).WithBody(credReq))
-	if err != nil {
-		utils.LogErrorAndExit(err)
-	}
-	credential = resp.Payload
+	// resp, err := client.CreateCredentialInOrganization(v3_organization_id_credentials.NewCreateCredentialInOrganizationParams().WithOrganizationID(orgID).WithBody(credReq))
+	// if err != nil {
+	// 	utils.LogErrorAndExit(err)
+	// }
+	utils.LogErrorMessage("Missing endpoint")
+	// credential = resp.Payload
 
 	return credential
 }
