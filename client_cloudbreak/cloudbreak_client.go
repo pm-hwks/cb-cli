@@ -38,8 +38,13 @@ import (
 	"github.com/hortonworks/cb-cli/client_cloudbreak/v3_organization_id_blueprints"
 	"github.com/hortonworks/cb-cli/client_cloudbreak/v3_organization_id_credentials"
 	"github.com/hortonworks/cb-cli/client_cloudbreak/v3_organization_id_flexsubscriptions"
+	"github.com/hortonworks/cb-cli/client_cloudbreak/v3_organization_id_imagecatalogs"
+	"github.com/hortonworks/cb-cli/client_cloudbreak/v3_organization_id_ldapconfigs"
+	"github.com/hortonworks/cb-cli/client_cloudbreak/v3_organization_id_mpacks"
 	"github.com/hortonworks/cb-cli/client_cloudbreak/v3_organization_id_proxyconfigs"
+	"github.com/hortonworks/cb-cli/client_cloudbreak/v3_organization_id_rdsconfigs"
 	"github.com/hortonworks/cb-cli/client_cloudbreak/v3_organization_id_recipes"
+	"github.com/hortonworks/cb-cli/client_cloudbreak/v3_organization_id_smartsensesubscriptions"
 	"github.com/hortonworks/cb-cli/client_cloudbreak/v3_organization_id_stack"
 	"github.com/hortonworks/cb-cli/client_cloudbreak/v3organizations"
 )
@@ -139,9 +144,19 @@ func New(transport runtime.ClientTransport, formats strfmt.Registry) *Cloudbreak
 
 	cli.V3OrganizationIDFlexsubscriptions = v3_organization_id_flexsubscriptions.New(transport, formats)
 
+	cli.V3OrganizationIDImagecatalogs = v3_organization_id_imagecatalogs.New(transport, formats)
+
+	cli.V3OrganizationIDLdapconfigs = v3_organization_id_ldapconfigs.New(transport, formats)
+
+	cli.V3OrganizationIDMpacks = v3_organization_id_mpacks.New(transport, formats)
+
 	cli.V3OrganizationIDProxyconfigs = v3_organization_id_proxyconfigs.New(transport, formats)
 
+	cli.V3OrganizationIDRdsconfigs = v3_organization_id_rdsconfigs.New(transport, formats)
+
 	cli.V3OrganizationIDRecipes = v3_organization_id_recipes.New(transport, formats)
+
+	cli.V3OrganizationIDSmartsensesubscriptions = v3_organization_id_smartsensesubscriptions.New(transport, formats)
 
 	cli.V3OrganizationIDStack = v3_organization_id_stack.New(transport, formats)
 
@@ -245,9 +260,19 @@ type Cloudbreak struct {
 
 	V3OrganizationIDFlexsubscriptions *v3_organization_id_flexsubscriptions.Client
 
+	V3OrganizationIDImagecatalogs *v3_organization_id_imagecatalogs.Client
+
+	V3OrganizationIDLdapconfigs *v3_organization_id_ldapconfigs.Client
+
+	V3OrganizationIDMpacks *v3_organization_id_mpacks.Client
+
 	V3OrganizationIDProxyconfigs *v3_organization_id_proxyconfigs.Client
 
+	V3OrganizationIDRdsconfigs *v3_organization_id_rdsconfigs.Client
+
 	V3OrganizationIDRecipes *v3_organization_id_recipes.Client
+
+	V3OrganizationIDSmartsensesubscriptions *v3_organization_id_smartsensesubscriptions.Client
 
 	V3OrganizationIDStack *v3_organization_id_stack.Client
 
@@ -314,9 +339,19 @@ func (c *Cloudbreak) SetTransport(transport runtime.ClientTransport) {
 
 	c.V3OrganizationIDFlexsubscriptions.SetTransport(transport)
 
+	c.V3OrganizationIDImagecatalogs.SetTransport(transport)
+
+	c.V3OrganizationIDLdapconfigs.SetTransport(transport)
+
+	c.V3OrganizationIDMpacks.SetTransport(transport)
+
 	c.V3OrganizationIDProxyconfigs.SetTransport(transport)
 
+	c.V3OrganizationIDRdsconfigs.SetTransport(transport)
+
 	c.V3OrganizationIDRecipes.SetTransport(transport)
+
+	c.V3OrganizationIDSmartsensesubscriptions.SetTransport(transport)
 
 	c.V3OrganizationIDStack.SetTransport(transport)
 

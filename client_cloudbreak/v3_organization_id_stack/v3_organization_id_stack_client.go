@@ -25,6 +25,36 @@ type Client struct {
 }
 
 /*
+ChangeImageV3 checks image in stack by name in organization
+
+Stacks are template instances - a running cloud infrastructure created based on a template. Stacks are always launched on behalf of a cloud user account. Stacks support a wide range of resources, allowing you to build a highly available, reliable, and scalable infrastructure for your application needs.
+*/
+func (a *Client) ChangeImageV3(params *ChangeImageV3Params) error {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewChangeImageV3Params()
+	}
+
+	_, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "changeImageV3",
+		Method:             "PUT",
+		PathPattern:        "/v3/{organizationId}/stack/{name}/changeImage",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http", "https"},
+		Params:             params,
+		Reader:             &ChangeImageV3Reader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return err
+	}
+	return nil
+
+}
+
+/*
 CreateStackInOrganization creates stack in organization
 
 An proxy Configuration describe a connection to an external proxy server which provides internet access cluster members. It's applied for package manager and Ambari too
@@ -51,6 +81,66 @@ func (a *Client) CreateStackInOrganization(params *CreateStackInOrganizationPara
 		return nil, err
 	}
 	return result.(*CreateStackInOrganizationOK), nil
+
+}
+
+/*
+DeleteClusterWithKerberosV3 deletes the stack with kerberos cluster by name in organization
+
+Clusters are materialised Hadoop services on a given infrastructure. They are built based on a Blueprint (running the components and services specified) and on a configured infrastructure Stack. Once a cluster is created and launched, it can be used the usual way as any Hadoop cluster. We suggest to start with the Cluster's Ambari UI for an overview of your cluster.
+*/
+func (a *Client) DeleteClusterWithKerberosV3(params *DeleteClusterWithKerberosV3Params) error {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewDeleteClusterWithKerberosV3Params()
+	}
+
+	_, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "deleteClusterWithKerberosV3",
+		Method:             "DELETE",
+		PathPattern:        "/v3/{organizationId}/stack/{name}/cluster",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http", "https"},
+		Params:             params,
+		Reader:             &DeleteClusterWithKerberosV3Reader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return err
+	}
+	return nil
+
+}
+
+/*
+DeleteInstanceStackV3 deletes instance from the stack s cluster in organization
+
+Stacks are template instances - a running cloud infrastructure created based on a template. Stacks are always launched on behalf of a cloud user account. Stacks support a wide range of resources, allowing you to build a highly available, reliable, and scalable infrastructure for your application needs.
+*/
+func (a *Client) DeleteInstanceStackV3(params *DeleteInstanceStackV3Params) (*DeleteInstanceStackV3OK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewDeleteInstanceStackV3Params()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "deleteInstanceStackV3",
+		Method:             "DELETE",
+		PathPattern:        "/v3/{organizationId}/stack/{stackId}/instance/{instanceId}",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http", "https"},
+		Params:             params,
+		Reader:             &DeleteInstanceStackV3Reader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	return result.(*DeleteInstanceStackV3OK), nil
 
 }
 
@@ -115,6 +205,36 @@ func (a *Client) GetStackInOrganization(params *GetStackInOrganizationParams) (*
 }
 
 /*
+GetStackRequestFromNameV3 gets stack request by name in organization
+
+Stacks are template instances - a running cloud infrastructure created based on a template. Stacks are always launched on behalf of a cloud user account. Stacks support a wide range of resources, allowing you to build a highly available, reliable, and scalable infrastructure for your application needs.
+*/
+func (a *Client) GetStackRequestFromNameV3(params *GetStackRequestFromNameV3Params) (*GetStackRequestFromNameV3OK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewGetStackRequestFromNameV3Params()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "getStackRequestFromNameV3",
+		Method:             "GET",
+		PathPattern:        "/v3/{organizationId}/stack/{name}/request",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http", "https"},
+		Params:             params,
+		Reader:             &GetStackRequestFromNameV3Reader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	return result.(*GetStackRequestFromNameV3OK), nil
+
+}
+
+/*
 ListStacksByOrganization lists stacks for the given organization
 
 An proxy Configuration describe a connection to an external proxy server which provides internet access cluster members. It's applied for package manager and Ambari too
@@ -141,6 +261,216 @@ func (a *Client) ListStacksByOrganization(params *ListStacksByOrganizationParams
 		return nil, err
 	}
 	return result.(*ListStacksByOrganizationOK), nil
+
+}
+
+/*
+PostStackForBlueprintV3 posts stack for blueprint in organization
+
+Stacks are template instances - a running cloud infrastructure created based on a template. Stacks are always launched on behalf of a cloud user account. Stacks support a wide range of resources, allowing you to build a highly available, reliable, and scalable infrastructure for your application needs.
+*/
+func (a *Client) PostStackForBlueprintV3(params *PostStackForBlueprintV3Params) (*PostStackForBlueprintV3OK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewPostStackForBlueprintV3Params()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "postStackForBlueprintV3",
+		Method:             "POST",
+		PathPattern:        "/v3/{organizationId}/stack/{name}/blueprint",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http", "https"},
+		Params:             params,
+		Reader:             &PostStackForBlueprintV3Reader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	return result.(*PostStackForBlueprintV3OK), nil
+
+}
+
+/*
+PutscalingStackV3 scales the stack by name in organization
+
+Stacks are template instances - a running cloud infrastructure created based on a template. Stacks are always launched on behalf of a cloud user account. Stacks support a wide range of resources, allowing you to build a highly available, reliable, and scalable infrastructure for your application needs.
+*/
+func (a *Client) PutscalingStackV3(params *PutscalingStackV3Params) (*PutscalingStackV3OK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewPutscalingStackV3Params()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "putscalingStackV3",
+		Method:             "PUT",
+		PathPattern:        "/v3/{organizationId}/stack/{name}/scaling",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http", "https"},
+		Params:             params,
+		Reader:             &PutscalingStackV3Reader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	return result.(*PutscalingStackV3OK), nil
+
+}
+
+/*
+PutstartStackV3 starts the stack by name in organization
+
+Stacks are template instances - a running cloud infrastructure created based on a template. Stacks are always launched on behalf of a cloud user account. Stacks support a wide range of resources, allowing you to build a highly available, reliable, and scalable infrastructure for your application needs.
+*/
+func (a *Client) PutstartStackV3(params *PutstartStackV3Params) (*PutstartStackV3OK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewPutstartStackV3Params()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "putstartStackV3",
+		Method:             "PUT",
+		PathPattern:        "/v3/{organizationId}/stack/{name}/start",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http", "https"},
+		Params:             params,
+		Reader:             &PutstartStackV3Reader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	return result.(*PutstartStackV3OK), nil
+
+}
+
+/*
+PutstopStackV3 stops the stack by name in organization
+
+Stacks are template instances - a running cloud infrastructure created based on a template. Stacks are always launched on behalf of a cloud user account. Stacks support a wide range of resources, allowing you to build a highly available, reliable, and scalable infrastructure for your application needs.
+*/
+func (a *Client) PutstopStackV3(params *PutstopStackV3Params) (*PutstopStackV3OK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewPutstopStackV3Params()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "putstopStackV3",
+		Method:             "PUT",
+		PathPattern:        "/v3/{organizationId}/stack/{name}/stop",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http", "https"},
+		Params:             params,
+		Reader:             &PutstopStackV3Reader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	return result.(*PutstopStackV3OK), nil
+
+}
+
+/*
+PutsyncStackV3 syncs the stack by name in organization
+
+Stacks are template instances - a running cloud infrastructure created based on a template. Stacks are always launched on behalf of a cloud user account. Stacks support a wide range of resources, allowing you to build a highly available, reliable, and scalable infrastructure for your application needs.
+*/
+func (a *Client) PutsyncStackV3(params *PutsyncStackV3Params) (*PutsyncStackV3OK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewPutsyncStackV3Params()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "putsyncStackV3",
+		Method:             "PUT",
+		PathPattern:        "/v3/{organizationId}/stack/{name}/sync",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http", "https"},
+		Params:             params,
+		Reader:             &PutsyncStackV3Reader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	return result.(*PutsyncStackV3OK), nil
+
+}
+
+/*
+RepairClusterV3 repairs the stack by name in organization
+
+Removing the failed nodes and starting new nodes to substitute them.
+*/
+func (a *Client) RepairClusterV3(params *RepairClusterV3Params) (*RepairClusterV3OK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewRepairClusterV3Params()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "repairClusterV3",
+		Method:             "POST",
+		PathPattern:        "/v3/{organizationId}/stack/{name}/manualrepair",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http", "https"},
+		Params:             params,
+		Reader:             &RepairClusterV3Reader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	return result.(*RepairClusterV3OK), nil
+
+}
+
+/*
+RetryStackV3 retries the stack by name in organization
+
+Failed or interrupted stack and cluster operations can be retried, after the cause of the failure was eliminated. The operations will continue at the state, where the previous process failed.
+*/
+func (a *Client) RetryStackV3(params *RetryStackV3Params) error {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewRetryStackV3Params()
+	}
+
+	_, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "retryStackV3",
+		Method:             "POST",
+		PathPattern:        "/v3/{organizationId}/stack/{name}/retry",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http", "https"},
+		Params:             params,
+		Reader:             &RetryStackV3Reader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return err
+	}
+	return nil
 
 }
 

@@ -22,8 +22,13 @@ import (
 // NewDeleteStackInOrganizationParams creates a new DeleteStackInOrganizationParams object
 // with the default values initialized.
 func NewDeleteStackInOrganizationParams() *DeleteStackInOrganizationParams {
-	var ()
+	var (
+		deleteDependenciesDefault = bool(false)
+		forcedDefault             = bool(false)
+	)
 	return &DeleteStackInOrganizationParams{
+		DeleteDependencies: &deleteDependenciesDefault,
+		Forced:             &forcedDefault,
 
 		timeout: cr.DefaultTimeout,
 	}
@@ -32,8 +37,13 @@ func NewDeleteStackInOrganizationParams() *DeleteStackInOrganizationParams {
 // NewDeleteStackInOrganizationParamsWithTimeout creates a new DeleteStackInOrganizationParams object
 // with the default values initialized, and the ability to set a timeout on a request
 func NewDeleteStackInOrganizationParamsWithTimeout(timeout time.Duration) *DeleteStackInOrganizationParams {
-	var ()
+	var (
+		deleteDependenciesDefault = bool(false)
+		forcedDefault             = bool(false)
+	)
 	return &DeleteStackInOrganizationParams{
+		DeleteDependencies: &deleteDependenciesDefault,
+		Forced:             &forcedDefault,
 
 		timeout: timeout,
 	}
@@ -42,8 +52,13 @@ func NewDeleteStackInOrganizationParamsWithTimeout(timeout time.Duration) *Delet
 // NewDeleteStackInOrganizationParamsWithContext creates a new DeleteStackInOrganizationParams object
 // with the default values initialized, and the ability to set a context for a request
 func NewDeleteStackInOrganizationParamsWithContext(ctx context.Context) *DeleteStackInOrganizationParams {
-	var ()
+	var (
+		deleteDependenciesDefault = bool(false)
+		forcedDefault             = bool(false)
+	)
 	return &DeleteStackInOrganizationParams{
+		DeleteDependencies: &deleteDependenciesDefault,
+		Forced:             &forcedDefault,
 
 		Context: ctx,
 	}
@@ -52,9 +67,14 @@ func NewDeleteStackInOrganizationParamsWithContext(ctx context.Context) *DeleteS
 // NewDeleteStackInOrganizationParamsWithHTTPClient creates a new DeleteStackInOrganizationParams object
 // with the default values initialized, and the ability to set a custom HTTPClient for a request
 func NewDeleteStackInOrganizationParamsWithHTTPClient(client *http.Client) *DeleteStackInOrganizationParams {
-	var ()
+	var (
+		deleteDependenciesDefault = bool(false)
+		forcedDefault             = bool(false)
+	)
 	return &DeleteStackInOrganizationParams{
-		HTTPClient: client,
+		DeleteDependencies: &deleteDependenciesDefault,
+		Forced:             &forcedDefault,
+		HTTPClient:         client,
 	}
 }
 
@@ -63,6 +83,10 @@ for the delete stack in organization operation typically these are written to a 
 */
 type DeleteStackInOrganizationParams struct {
 
+	/*DeleteDependencies*/
+	DeleteDependencies *bool
+	/*Forced*/
+	Forced *bool
 	/*Name*/
 	Name string
 	/*OrganizationID*/
@@ -106,6 +130,28 @@ func (o *DeleteStackInOrganizationParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
 }
 
+// WithDeleteDependencies adds the deleteDependencies to the delete stack in organization params
+func (o *DeleteStackInOrganizationParams) WithDeleteDependencies(deleteDependencies *bool) *DeleteStackInOrganizationParams {
+	o.SetDeleteDependencies(deleteDependencies)
+	return o
+}
+
+// SetDeleteDependencies adds the deleteDependencies to the delete stack in organization params
+func (o *DeleteStackInOrganizationParams) SetDeleteDependencies(deleteDependencies *bool) {
+	o.DeleteDependencies = deleteDependencies
+}
+
+// WithForced adds the forced to the delete stack in organization params
+func (o *DeleteStackInOrganizationParams) WithForced(forced *bool) *DeleteStackInOrganizationParams {
+	o.SetForced(forced)
+	return o
+}
+
+// SetForced adds the forced to the delete stack in organization params
+func (o *DeleteStackInOrganizationParams) SetForced(forced *bool) {
+	o.Forced = forced
+}
+
 // WithName adds the name to the delete stack in organization params
 func (o *DeleteStackInOrganizationParams) WithName(name string) *DeleteStackInOrganizationParams {
 	o.SetName(name)
@@ -135,6 +181,38 @@ func (o *DeleteStackInOrganizationParams) WriteToRequest(r runtime.ClientRequest
 		return err
 	}
 	var res []error
+
+	if o.DeleteDependencies != nil {
+
+		// query param deleteDependencies
+		var qrDeleteDependencies bool
+		if o.DeleteDependencies != nil {
+			qrDeleteDependencies = *o.DeleteDependencies
+		}
+		qDeleteDependencies := swag.FormatBool(qrDeleteDependencies)
+		if qDeleteDependencies != "" {
+			if err := r.SetQueryParam("deleteDependencies", qDeleteDependencies); err != nil {
+				return err
+			}
+		}
+
+	}
+
+	if o.Forced != nil {
+
+		// query param forced
+		var qrForced bool
+		if o.Forced != nil {
+			qrForced = *o.Forced
+		}
+		qForced := swag.FormatBool(qrForced)
+		if qForced != "" {
+			if err := r.SetQueryParam("forced", qForced); err != nil {
+				return err
+			}
+		}
+
+	}
 
 	// path param name
 	if err := r.SetPathParam("name", o.Name); err != nil {
