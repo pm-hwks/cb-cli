@@ -115,6 +115,36 @@ func (a *Client) GetRdsConfigInOrganization(params *GetRdsConfigInOrganizationPa
 }
 
 /*
+GetRdsRequestFromNameInOrganization gets request in organization
+
+An RDS Configuration describe a connection to an external Relational Database Service that can be used as the Hive Metastore.
+*/
+func (a *Client) GetRdsRequestFromNameInOrganization(params *GetRdsRequestFromNameInOrganizationParams) (*GetRdsRequestFromNameInOrganizationOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewGetRdsRequestFromNameInOrganizationParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "getRdsRequestFromNameInOrganization",
+		Method:             "GET",
+		PathPattern:        "/v3/{organizationId}/rdsconfigs/{name}/request",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http", "https"},
+		Params:             params,
+		Reader:             &GetRdsRequestFromNameInOrganizationReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	return result.(*GetRdsRequestFromNameInOrganizationOK), nil
+
+}
+
+/*
 ListRdsConfigsByOrganization lists r d s configs for the given organization
 
 An RDS Configuration describe a connection to an external Relational Database Service that can be used as the Hive Metastore.
@@ -141,6 +171,36 @@ func (a *Client) ListRdsConfigsByOrganization(params *ListRdsConfigsByOrganizati
 		return nil, err
 	}
 	return result.(*ListRdsConfigsByOrganizationOK), nil
+
+}
+
+/*
+TestRdsConnectionInOrganization tests r d s connectivity
+
+An RDS Configuration describe a connection to an external Relational Database Service that can be used as the Hive Metastore.
+*/
+func (a *Client) TestRdsConnectionInOrganization(params *TestRdsConnectionInOrganizationParams) (*TestRdsConnectionInOrganizationOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewTestRdsConnectionInOrganizationParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "testRdsConnectionInOrganization",
+		Method:             "POST",
+		PathPattern:        "/v3/{organizationId}/rdsconfigs/testconnect",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http", "https"},
+		Params:             params,
+		Reader:             &TestRdsConnectionInOrganizationReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	return result.(*TestRdsConnectionInOrganizationOK), nil
 
 }
 
