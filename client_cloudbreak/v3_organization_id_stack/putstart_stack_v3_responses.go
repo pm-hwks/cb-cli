@@ -7,13 +7,10 @@ package v3_organization_id_stack
 
 import (
 	"fmt"
-	"io"
 
 	"github.com/go-openapi/runtime"
 
 	strfmt "github.com/go-openapi/strfmt"
-
-	"github.com/hortonworks/cb-cli/models_cloudbreak"
 )
 
 // PutstartStackV3Reader is a Reader for the PutstartStackV3 structure.
@@ -23,45 +20,43 @@ type PutstartStackV3Reader struct {
 
 // ReadResponse reads a server response into the received o.
 func (o *PutstartStackV3Reader) ReadResponse(response runtime.ClientResponse, consumer runtime.Consumer) (interface{}, error) {
-	switch response.Code() {
 
-	case 200:
-		result := NewPutstartStackV3OK()
-		if err := result.readResponse(response, consumer, o.formats); err != nil {
-			return nil, err
-		}
+	result := NewPutstartStackV3Default(response.Code())
+	if err := result.readResponse(response, consumer, o.formats); err != nil {
+		return nil, err
+	}
+	if response.Code()/100 == 2 {
 		return result, nil
+	}
+	return nil, result
 
-	default:
-		return nil, runtime.NewAPIError("unknown error", response, response.Code())
+}
+
+// NewPutstartStackV3Default creates a PutstartStackV3Default with default headers values
+func NewPutstartStackV3Default(code int) *PutstartStackV3Default {
+	return &PutstartStackV3Default{
+		_statusCode: code,
 	}
 }
 
-// NewPutstartStackV3OK creates a PutstartStackV3OK with default headers values
-func NewPutstartStackV3OK() *PutstartStackV3OK {
-	return &PutstartStackV3OK{}
-}
-
-/*PutstartStackV3OK handles this case with default header values.
+/*PutstartStackV3Default handles this case with default header values.
 
 successful operation
 */
-type PutstartStackV3OK struct {
-	Payload *models_cloudbreak.StackResponse
+type PutstartStackV3Default struct {
+	_statusCode int
 }
 
-func (o *PutstartStackV3OK) Error() string {
-	return fmt.Sprintf("[PUT /v3/{organizationId}/stack/{name}/start][%d] putstartStackV3OK  %+v", 200, o.Payload)
+// Code gets the status code for the putstart stack v3 default response
+func (o *PutstartStackV3Default) Code() int {
+	return o._statusCode
 }
 
-func (o *PutstartStackV3OK) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+func (o *PutstartStackV3Default) Error() string {
+	return fmt.Sprintf("[PUT /v3/{organizationId}/stack/{name}/start][%d] putstartStackV3 default ", o._statusCode)
+}
 
-	o.Payload = new(models_cloudbreak.StackResponse)
-
-	// response payload
-	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
-		return err
-	}
+func (o *PutstartStackV3Default) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
 	return nil
 }

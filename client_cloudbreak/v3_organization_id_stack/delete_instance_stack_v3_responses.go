@@ -7,13 +7,10 @@ package v3_organization_id_stack
 
 import (
 	"fmt"
-	"io"
 
 	"github.com/go-openapi/runtime"
 
 	strfmt "github.com/go-openapi/strfmt"
-
-	"github.com/hortonworks/cb-cli/models_cloudbreak"
 )
 
 // DeleteInstanceStackV3Reader is a Reader for the DeleteInstanceStackV3 structure.
@@ -23,45 +20,43 @@ type DeleteInstanceStackV3Reader struct {
 
 // ReadResponse reads a server response into the received o.
 func (o *DeleteInstanceStackV3Reader) ReadResponse(response runtime.ClientResponse, consumer runtime.Consumer) (interface{}, error) {
-	switch response.Code() {
 
-	case 200:
-		result := NewDeleteInstanceStackV3OK()
-		if err := result.readResponse(response, consumer, o.formats); err != nil {
-			return nil, err
-		}
+	result := NewDeleteInstanceStackV3Default(response.Code())
+	if err := result.readResponse(response, consumer, o.formats); err != nil {
+		return nil, err
+	}
+	if response.Code()/100 == 2 {
 		return result, nil
+	}
+	return nil, result
 
-	default:
-		return nil, runtime.NewAPIError("unknown error", response, response.Code())
+}
+
+// NewDeleteInstanceStackV3Default creates a DeleteInstanceStackV3Default with default headers values
+func NewDeleteInstanceStackV3Default(code int) *DeleteInstanceStackV3Default {
+	return &DeleteInstanceStackV3Default{
+		_statusCode: code,
 	}
 }
 
-// NewDeleteInstanceStackV3OK creates a DeleteInstanceStackV3OK with default headers values
-func NewDeleteInstanceStackV3OK() *DeleteInstanceStackV3OK {
-	return &DeleteInstanceStackV3OK{}
-}
-
-/*DeleteInstanceStackV3OK handles this case with default header values.
+/*DeleteInstanceStackV3Default handles this case with default header values.
 
 successful operation
 */
-type DeleteInstanceStackV3OK struct {
-	Payload *models_cloudbreak.StackResponse
+type DeleteInstanceStackV3Default struct {
+	_statusCode int
 }
 
-func (o *DeleteInstanceStackV3OK) Error() string {
-	return fmt.Sprintf("[DELETE /v3/{organizationId}/stack/{name}/instance/{instanceId}][%d] deleteInstanceStackV3OK  %+v", 200, o.Payload)
+// Code gets the status code for the delete instance stack v3 default response
+func (o *DeleteInstanceStackV3Default) Code() int {
+	return o._statusCode
 }
 
-func (o *DeleteInstanceStackV3OK) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+func (o *DeleteInstanceStackV3Default) Error() string {
+	return fmt.Sprintf("[DELETE /v3/{organizationId}/stack/{name}/instance/{instanceId}][%d] deleteInstanceStackV3 default ", o._statusCode)
+}
 
-	o.Payload = new(models_cloudbreak.StackResponse)
-
-	// response payload
-	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
-		return err
-	}
+func (o *DeleteInstanceStackV3Default) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
 	return nil
 }

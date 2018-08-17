@@ -7,13 +7,10 @@ package v3_organization_id_stack
 
 import (
 	"fmt"
-	"io"
 
 	"github.com/go-openapi/runtime"
 
 	strfmt "github.com/go-openapi/strfmt"
-
-	"github.com/hortonworks/cb-cli/models_cloudbreak"
 )
 
 // RepairClusterV3Reader is a Reader for the RepairClusterV3 structure.
@@ -23,45 +20,43 @@ type RepairClusterV3Reader struct {
 
 // ReadResponse reads a server response into the received o.
 func (o *RepairClusterV3Reader) ReadResponse(response runtime.ClientResponse, consumer runtime.Consumer) (interface{}, error) {
-	switch response.Code() {
 
-	case 200:
-		result := NewRepairClusterV3OK()
-		if err := result.readResponse(response, consumer, o.formats); err != nil {
-			return nil, err
-		}
+	result := NewRepairClusterV3Default(response.Code())
+	if err := result.readResponse(response, consumer, o.formats); err != nil {
+		return nil, err
+	}
+	if response.Code()/100 == 2 {
 		return result, nil
+	}
+	return nil, result
 
-	default:
-		return nil, runtime.NewAPIError("unknown error", response, response.Code())
+}
+
+// NewRepairClusterV3Default creates a RepairClusterV3Default with default headers values
+func NewRepairClusterV3Default(code int) *RepairClusterV3Default {
+	return &RepairClusterV3Default{
+		_statusCode: code,
 	}
 }
 
-// NewRepairClusterV3OK creates a RepairClusterV3OK with default headers values
-func NewRepairClusterV3OK() *RepairClusterV3OK {
-	return &RepairClusterV3OK{}
-}
-
-/*RepairClusterV3OK handles this case with default header values.
+/*RepairClusterV3Default handles this case with default header values.
 
 successful operation
 */
-type RepairClusterV3OK struct {
-	Payload *models_cloudbreak.StackResponse
+type RepairClusterV3Default struct {
+	_statusCode int
 }
 
-func (o *RepairClusterV3OK) Error() string {
-	return fmt.Sprintf("[POST /v3/{organizationId}/stack/{name}/manualrepair][%d] repairClusterV3OK  %+v", 200, o.Payload)
+// Code gets the status code for the repair cluster v3 default response
+func (o *RepairClusterV3Default) Code() int {
+	return o._statusCode
 }
 
-func (o *RepairClusterV3OK) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+func (o *RepairClusterV3Default) Error() string {
+	return fmt.Sprintf("[POST /v3/{organizationId}/stack/{name}/manualrepair][%d] repairClusterV3 default ", o._statusCode)
+}
 
-	o.Payload = new(models_cloudbreak.StackResponse)
-
-	// response payload
-	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
-		return err
-	}
+func (o *RepairClusterV3Default) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
 	return nil
 }

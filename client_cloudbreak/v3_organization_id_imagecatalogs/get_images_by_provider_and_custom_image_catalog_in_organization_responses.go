@@ -51,7 +51,7 @@ type GetImagesByProviderAndCustomImageCatalogInOrganizationOK struct {
 }
 
 func (o *GetImagesByProviderAndCustomImageCatalogInOrganizationOK) Error() string {
-	return fmt.Sprintf("[GET /v3/{organizationId}/imagecatalogs/account/{name}/{platform}][%d] getImagesByProviderAndCustomImageCatalogInOrganizationOK  %+v", 200, o.Payload)
+	return fmt.Sprintf("[GET /v3/{organizationId}/imagecatalogs/{name}/platform/{platform}][%d] getImagesByProviderAndCustomImageCatalogInOrganizationOK  %+v", 200, o.Payload)
 }
 
 func (o *GetImagesByProviderAndCustomImageCatalogInOrganizationOK) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {

@@ -35,6 +35,7 @@ import (
 	"github.com/hortonworks/cb-cli/client_cloudbreak/v1util"
 	"github.com/hortonworks/cb-cli/client_cloudbreak/v2connectors"
 	"github.com/hortonworks/cb-cli/client_cloudbreak/v2stacks"
+	"github.com/hortonworks/cb-cli/client_cloudbreak/v3_organization_id_audits"
 	"github.com/hortonworks/cb-cli/client_cloudbreak/v3_organization_id_blueprints"
 	"github.com/hortonworks/cb-cli/client_cloudbreak/v3_organization_id_credentials"
 	"github.com/hortonworks/cb-cli/client_cloudbreak/v3_organization_id_flexsubscriptions"
@@ -137,6 +138,8 @@ func New(transport runtime.ClientTransport, formats strfmt.Registry) *Cloudbreak
 	cli.V2connectors = v2connectors.New(transport, formats)
 
 	cli.V2stacks = v2stacks.New(transport, formats)
+
+	cli.V3OrganizationIDAudits = v3_organization_id_audits.New(transport, formats)
 
 	cli.V3OrganizationIDBlueprints = v3_organization_id_blueprints.New(transport, formats)
 
@@ -254,6 +257,8 @@ type Cloudbreak struct {
 
 	V2stacks *v2stacks.Client
 
+	V3OrganizationIDAudits *v3_organization_id_audits.Client
+
 	V3OrganizationIDBlueprints *v3_organization_id_blueprints.Client
 
 	V3OrganizationIDCredentials *v3_organization_id_credentials.Client
@@ -332,6 +337,8 @@ func (c *Cloudbreak) SetTransport(transport runtime.ClientTransport) {
 	c.V2connectors.SetTransport(transport)
 
 	c.V2stacks.SetTransport(transport)
+
+	c.V3OrganizationIDAudits.SetTransport(transport)
 
 	c.V3OrganizationIDBlueprints.SetTransport(transport)
 

@@ -7,13 +7,10 @@ package v3_organization_id_stack
 
 import (
 	"fmt"
-	"io"
 
 	"github.com/go-openapi/runtime"
 
 	strfmt "github.com/go-openapi/strfmt"
-
-	"github.com/hortonworks/cb-cli/models_cloudbreak"
 )
 
 // PutsyncStackV3Reader is a Reader for the PutsyncStackV3 structure.
@@ -23,45 +20,43 @@ type PutsyncStackV3Reader struct {
 
 // ReadResponse reads a server response into the received o.
 func (o *PutsyncStackV3Reader) ReadResponse(response runtime.ClientResponse, consumer runtime.Consumer) (interface{}, error) {
-	switch response.Code() {
 
-	case 200:
-		result := NewPutsyncStackV3OK()
-		if err := result.readResponse(response, consumer, o.formats); err != nil {
-			return nil, err
-		}
+	result := NewPutsyncStackV3Default(response.Code())
+	if err := result.readResponse(response, consumer, o.formats); err != nil {
+		return nil, err
+	}
+	if response.Code()/100 == 2 {
 		return result, nil
+	}
+	return nil, result
 
-	default:
-		return nil, runtime.NewAPIError("unknown error", response, response.Code())
+}
+
+// NewPutsyncStackV3Default creates a PutsyncStackV3Default with default headers values
+func NewPutsyncStackV3Default(code int) *PutsyncStackV3Default {
+	return &PutsyncStackV3Default{
+		_statusCode: code,
 	}
 }
 
-// NewPutsyncStackV3OK creates a PutsyncStackV3OK with default headers values
-func NewPutsyncStackV3OK() *PutsyncStackV3OK {
-	return &PutsyncStackV3OK{}
-}
-
-/*PutsyncStackV3OK handles this case with default header values.
+/*PutsyncStackV3Default handles this case with default header values.
 
 successful operation
 */
-type PutsyncStackV3OK struct {
-	Payload *models_cloudbreak.StackResponse
+type PutsyncStackV3Default struct {
+	_statusCode int
 }
 
-func (o *PutsyncStackV3OK) Error() string {
-	return fmt.Sprintf("[PUT /v3/{organizationId}/stack/{name}/sync][%d] putsyncStackV3OK  %+v", 200, o.Payload)
+// Code gets the status code for the putsync stack v3 default response
+func (o *PutsyncStackV3Default) Code() int {
+	return o._statusCode
 }
 
-func (o *PutsyncStackV3OK) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+func (o *PutsyncStackV3Default) Error() string {
+	return fmt.Sprintf("[PUT /v3/{organizationId}/stack/{name}/sync][%d] putsyncStackV3 default ", o._statusCode)
+}
 
-	o.Payload = new(models_cloudbreak.StackResponse)
-
-	// response payload
-	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
-		return err
-	}
+func (o *PutsyncStackV3Default) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
 	return nil
 }

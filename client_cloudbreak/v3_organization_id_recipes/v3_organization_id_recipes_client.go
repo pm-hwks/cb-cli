@@ -115,6 +115,36 @@ func (a *Client) GetRecipeInOrganization(params *GetRecipeInOrganizationParams) 
 }
 
 /*
+GetRecipeRequestFromNameInOrganization retrieves recipe request by recipe name
+
+Recipes are basically script extensions to a cluster that run on a set of nodes before or after the Ambari cluster installation.
+*/
+func (a *Client) GetRecipeRequestFromNameInOrganization(params *GetRecipeRequestFromNameInOrganizationParams) (*GetRecipeRequestFromNameInOrganizationOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewGetRecipeRequestFromNameInOrganizationParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "getRecipeRequestFromNameInOrganization",
+		Method:             "GET",
+		PathPattern:        "/v3/{organizationId}/recipes/{name}/request",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http", "https"},
+		Params:             params,
+		Reader:             &GetRecipeRequestFromNameInOrganizationReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	return result.(*GetRecipeRequestFromNameInOrganizationOK), nil
+
+}
+
+/*
 ListRecipesByOrganization lists recipes for the given organization
 
 Recipes are basically script extensions to a cluster that run on a set of nodes before or after the Ambari cluster installation.

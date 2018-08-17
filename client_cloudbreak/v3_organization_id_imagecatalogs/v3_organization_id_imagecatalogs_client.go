@@ -115,6 +115,36 @@ func (a *Client) GetImageCatalogInOrganization(params *GetImageCatalogInOrganiza
 }
 
 /*
+GetImageCatalogRequestFromNameInOrganization retrieves imagecatalog request by imagecatalog name
+
+Provides an interface to determine available Virtual Machine images for the given version of Cloudbreak.
+*/
+func (a *Client) GetImageCatalogRequestFromNameInOrganization(params *GetImageCatalogRequestFromNameInOrganizationParams) (*GetImageCatalogRequestFromNameInOrganizationOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewGetImageCatalogRequestFromNameInOrganizationParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "getImageCatalogRequestFromNameInOrganization",
+		Method:             "GET",
+		PathPattern:        "/v3/{organizationId}/imagecatalogs/{name}/request",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http", "https"},
+		Params:             params,
+		Reader:             &GetImageCatalogRequestFromNameInOrganizationReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	return result.(*GetImageCatalogRequestFromNameInOrganizationOK), nil
+
+}
+
+/*
 GetImagesByProviderAndCustomImageCatalogInOrganization determines available images for the cloudbreak version by the given provider and given image catalog url
 
 Provides an interface to determine available Virtual Machine images for the given version of Cloudbreak.
@@ -128,7 +158,7 @@ func (a *Client) GetImagesByProviderAndCustomImageCatalogInOrganization(params *
 	result, err := a.transport.Submit(&runtime.ClientOperation{
 		ID:                 "getImagesByProviderAndCustomImageCatalogInOrganization",
 		Method:             "GET",
-		PathPattern:        "/v3/{organizationId}/imagecatalogs/account/{name}/{platform}",
+		PathPattern:        "/v3/{organizationId}/imagecatalogs/{name}/platform/{platform}",
 		ProducesMediaTypes: []string{"application/json"},
 		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"http", "https"},
@@ -141,6 +171,36 @@ func (a *Client) GetImagesByProviderAndCustomImageCatalogInOrganization(params *
 		return nil, err
 	}
 	return result.(*GetImagesByProviderAndCustomImageCatalogInOrganizationOK), nil
+
+}
+
+/*
+GetImagesByProviderInOrganization determines available images for the cloudbreak version by the given provider and default image catalog url
+
+Provides an interface to determine available Virtual Machine images for the given version of Cloudbreak.
+*/
+func (a *Client) GetImagesByProviderInOrganization(params *GetImagesByProviderInOrganizationParams) (*GetImagesByProviderInOrganizationOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewGetImagesByProviderInOrganizationParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "getImagesByProviderInOrganization",
+		Method:             "GET",
+		PathPattern:        "/v3/{organizationId}/imagecatalogs/platform/{platform}",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http", "https"},
+		Params:             params,
+		Reader:             &GetImagesByProviderInOrganizationReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	return result.(*GetImagesByProviderInOrganizationOK), nil
 
 }
 

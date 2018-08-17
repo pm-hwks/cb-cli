@@ -67,6 +67,8 @@ type GetImageCatalogInOrganizationParams struct {
 	Name string
 	/*OrganizationID*/
 	OrganizationID int64
+	/*WithImages*/
+	WithImages *bool
 
 	timeout    time.Duration
 	Context    context.Context
@@ -128,6 +130,17 @@ func (o *GetImageCatalogInOrganizationParams) SetOrganizationID(organizationID i
 	o.OrganizationID = organizationID
 }
 
+// WithWithImages adds the withImages to the get image catalog in organization params
+func (o *GetImageCatalogInOrganizationParams) WithWithImages(withImages *bool) *GetImageCatalogInOrganizationParams {
+	o.SetWithImages(withImages)
+	return o
+}
+
+// SetWithImages adds the withImages to the get image catalog in organization params
+func (o *GetImageCatalogInOrganizationParams) SetWithImages(withImages *bool) {
+	o.WithImages = withImages
+}
+
 // WriteToRequest writes these params to a swagger request
 func (o *GetImageCatalogInOrganizationParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Registry) error {
 
@@ -144,6 +157,22 @@ func (o *GetImageCatalogInOrganizationParams) WriteToRequest(r runtime.ClientReq
 	// path param organizationId
 	if err := r.SetPathParam("organizationId", swag.FormatInt64(o.OrganizationID)); err != nil {
 		return err
+	}
+
+	if o.WithImages != nil {
+
+		// query param withImages
+		var qrWithImages bool
+		if o.WithImages != nil {
+			qrWithImages = *o.WithImages
+		}
+		qWithImages := swag.FormatBool(qrWithImages)
+		if qWithImages != "" {
+			if err := r.SetQueryParam("withImages", qWithImages); err != nil {
+				return err
+			}
+		}
+
 	}
 
 	if len(res) > 0 {

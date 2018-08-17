@@ -7,13 +7,10 @@ package v3_organization_id_stack
 
 import (
 	"fmt"
-	"io"
 
 	"github.com/go-openapi/runtime"
 
 	strfmt "github.com/go-openapi/strfmt"
-
-	"github.com/hortonworks/cb-cli/models_cloudbreak"
 )
 
 // PutscalingStackV3Reader is a Reader for the PutscalingStackV3 structure.
@@ -23,45 +20,43 @@ type PutscalingStackV3Reader struct {
 
 // ReadResponse reads a server response into the received o.
 func (o *PutscalingStackV3Reader) ReadResponse(response runtime.ClientResponse, consumer runtime.Consumer) (interface{}, error) {
-	switch response.Code() {
 
-	case 200:
-		result := NewPutscalingStackV3OK()
-		if err := result.readResponse(response, consumer, o.formats); err != nil {
-			return nil, err
-		}
+	result := NewPutscalingStackV3Default(response.Code())
+	if err := result.readResponse(response, consumer, o.formats); err != nil {
+		return nil, err
+	}
+	if response.Code()/100 == 2 {
 		return result, nil
+	}
+	return nil, result
 
-	default:
-		return nil, runtime.NewAPIError("unknown error", response, response.Code())
+}
+
+// NewPutscalingStackV3Default creates a PutscalingStackV3Default with default headers values
+func NewPutscalingStackV3Default(code int) *PutscalingStackV3Default {
+	return &PutscalingStackV3Default{
+		_statusCode: code,
 	}
 }
 
-// NewPutscalingStackV3OK creates a PutscalingStackV3OK with default headers values
-func NewPutscalingStackV3OK() *PutscalingStackV3OK {
-	return &PutscalingStackV3OK{}
-}
-
-/*PutscalingStackV3OK handles this case with default header values.
+/*PutscalingStackV3Default handles this case with default header values.
 
 successful operation
 */
-type PutscalingStackV3OK struct {
-	Payload *models_cloudbreak.StackResponse
+type PutscalingStackV3Default struct {
+	_statusCode int
 }
 
-func (o *PutscalingStackV3OK) Error() string {
-	return fmt.Sprintf("[PUT /v3/{organizationId}/stack/{name}/scaling][%d] putscalingStackV3OK  %+v", 200, o.Payload)
+// Code gets the status code for the putscaling stack v3 default response
+func (o *PutscalingStackV3Default) Code() int {
+	return o._statusCode
 }
 
-func (o *PutscalingStackV3OK) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+func (o *PutscalingStackV3Default) Error() string {
+	return fmt.Sprintf("[PUT /v3/{organizationId}/stack/{name}/scaling][%d] putscalingStackV3 default ", o._statusCode)
+}
 
-	o.Payload = new(models_cloudbreak.StackResponse)
-
-	// response payload
-	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
-		return err
-	}
+func (o *PutscalingStackV3Default) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
 	return nil
 }
