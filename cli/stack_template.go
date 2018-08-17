@@ -33,9 +33,9 @@ var getBlueprintClient = func(server, userName, password, authType string) getBl
 	return cbClient.Cloudbreak.V3OrganizationIDBlueprints
 }
 
-var stackClient = func(server, userName, password, authType string) getPublicStack {
+var stackClient = func(server, userName, password, authType string) getStackInOrganization {
 	cbClient := NewCloudbreakHTTPClient(server, userName, password, authType)
-	return cbClient.Cloudbreak.V1stacks
+	return cbClient.Cloudbreak.V3OrganizationIDStack
 }
 
 func GenerateAwsStackTemplate(c *cli.Context) error {
@@ -171,9 +171,9 @@ func generateStackTemplateImpl(mode cloud.NetworkMode, stringFinder func(string)
 	return &template
 }
 
-func generateAttachedtackTemplateImpl(stringFinder func(string) string, boolFinder func(string) bool, int64Finder func(string) int64, getStackClient func(string, string, string, string) getPublicStack, storageType cloud.CloudStorageType) error {
+func generateAttachedtackTemplateImpl(stringFinder func(string) string, boolFinder func(string) bool, int64Finder func(string) int64, getStackClient func(string, string, string, string) getStackInOrganization, storageType cloud.CloudStorageType) error {
 
-	datalake := fetchStack(stringFinder(FlWithSourceCluster.Name), stackClient(stringFinder(FlServerOptional.Name), stringFinder(FlUsername.Name), stringFinder(FlPassword.Name), stringFinder(FlAuthTypeOptional.Name)))
+	datalake := fetchStack(int64Finder(FlOrganization.Name), stringFinder(FlWithSourceCluster.Name), stackClient(stringFinder(FlServerOptional.Name), stringFinder(FlUsername.Name), stringFinder(FlPassword.Name), stringFinder(FlAuthTypeOptional.Name)))
 	isSharedServiceReady, _ := datalake.Cluster.Blueprint.Tags["shared_services_ready"].(bool)
 	if !isSharedServiceReady {
 		utils.LogErrorMessageAndExit("The source cluster must be a datalake")
@@ -463,8 +463,9 @@ func GenerateReinstallTemplate(c *cli.Context) {
 		InstanceGroups: []*models_cloudbreak.InstanceGroupsV2{},
 	}
 
+	orgID := c.Int64(FlOrganization.Name)
 	stackName := c.String(FlName.Name)
-	stackResp := fetchStack(stackName, stackClient(c.String(FlServerOptional.Name), c.String(FlUsername.Name), c.String(FlPassword.Name), c.String(FlAuthTypeOptional.Name)))
+	stackResp := fetchStack(orgID, stackName, stackClient(c.String(FlServerOptional.Name), c.String(FlUsername.Name), c.String(FlPassword.Name), c.String(FlAuthTypeOptional.Name)))
 	provider, ok := cloud.CloudProviders[cloud.CloudType(stackResp.CloudPlatform)]
 	if !ok {
 		utils.LogErrorMessageAndExit("Not supported CloudProvider: " + stackResp.CloudPlatform)
